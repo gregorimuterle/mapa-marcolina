@@ -247,7 +247,8 @@
 
     .search-results {
       position: absolute;
-      top: 100%; left: 20px; right: 20px;
+      top: var(--search-bar-h, 60px);
+      left: 20px; right: 20px;
       background: white;
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -304,6 +305,63 @@
       text-align: center;
       color: var(--muted);
       font-size: 13px;
+    }
+
+    /* === CHIPS DE FILTRO === */
+    .chips-bar {
+      display: flex;
+      gap: 8px;
+      padding: 10px 20px 12px;
+      background: white;
+      border-bottom: 1px solid var(--line);
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      scrollbar-width: thin;
+    }
+    .chips-bar::-webkit-scrollbar { height: 4px; }
+    .chips-bar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+
+    .chip {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s, color 0.15s, opacity 0.15s, transform 0.1s;
+      border: 1.5px solid transparent;
+      white-space: nowrap;
+      background: var(--paper);
+      color: var(--muted);
+      border-color: var(--line);
+    }
+    .chip:hover { transform: translateY(-1px); }
+    .chip:active { transform: translateY(0); }
+
+    .chip.ativo {
+      background: var(--cat-color);
+      color: white;
+      border-color: var(--cat-color);
+    }
+    .chip.ativo .chip-count {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+    .chip-icone { font-size: 14px; line-height: 1; }
+    .chip-count {
+      background: var(--line);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 10px;
+      min-width: 22px;
+      text-align: center;
     }
 
     /* === PINS === */
@@ -379,6 +437,7 @@
         box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       }
       .search-bar { padding: 10px 14px; }
+      .chips-bar { padding: 8px 14px 10px; }
       .search-results {
         left: 14px; right: 14px;
         max-height: min(360px, calc(var(--avail-h, 60vh) - 60px));
@@ -415,6 +474,7 @@
           <button type="button" class="search-clear" id="search-clear" aria-label="Limpar busca">×</button>
         </div>
         <div class="search-results" id="search-results"></div>
+        <div class="chips-bar" id="chips-bar"></div>
       </div>
       <div id="panel">
         <div class="panel-loading">
@@ -1052,6 +1112,80 @@
     });
 
     // ============================================================
+    // FILTERS — chips de categoria
+    // ============================================================
+    const chipsBarEl = document.getElementById('chips-bar');
+
+    function renderChips() {
+      chipsBarEl.innerHTML = state.categorias.map(cat => {
+        const total = (state.itensPorCategoria[cat.id] || []).length;
+        const ativo = state.categoriasVisiveis.has(cat.id);
+        return `
+          <div class="chip ${ativo ? 'ativo' : ''}"
+               data-cat="${esc(cat.id)}"
+               style="--cat-color: ${cat.cor}"
+               role="button"
+               aria-pressed="${ativo}"
+               title="${ativo ? 'Ocultar' : 'Mostrar'} ${esc(cat.nome)}">
+            <span class="chip-icone">${esc(cat.icone || '')}</span>
+            <span>${esc(cat.nome)}</span>
+            <span class="chip-count">${total}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleCategoria(catId) {
+      const cat = state.categoriasPorId[catId];
+      if (!cat) return;
+
+      const ativando = !state.categoriasVisiveis.has(catId);
+      if (ativando) {
+        state.categoriasVisiveis.add(catId);
+      } else {
+        state.categoriasVisiveis.delete(catId);
+      }
+
+      // Mostra/esconde marcadores dessa categoria
+      const itens = state.itensPorCategoria[catId] || [];
+      for (const item of itens) {
+        const marker = state.markers[chaveItem(catId, item.id)];
+        if (!marker) continue;
+        if (ativando) {
+          marker.addTo(map);
+        } else {
+          marker.remove();
+        }
+      }
+
+      // Se o item ativo no painel pertencia à categoria desligada, fecha o painel
+      if (!ativando && state.itemAtivo) {
+        const [activeCat] = state.itemAtivo.split(':');
+        if (activeCat === catId) {
+          state.itemAtivo = null;
+          renderEmpty();
+        }
+      }
+
+      // Atualiza UI
+      renderChips();
+      atualizarContadorTotal();
+
+      // Se houver uma busca ativa, recalcula (a categoria desligada some dos resultados)
+      if (state.ultimaBusca.query) {
+        const results = buscar(state.ultimaBusca.query);
+        state.ultimaBusca.matches = results;
+        aplicarBuscaNoMapa(state.ultimaBusca.query, results);
+        renderDropdown(state.ultimaBusca.query, results);
+      }
+    }
+
+    chipsBarEl.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (chip) toggleCategoria(chip.dataset.cat);
+    });
+
+    // ============================================================
     // LAYOUT — ajustes mobile
     // ============================================================
     const headerEl = document.querySelector('header');
@@ -1062,6 +1196,13 @@
     }
 
     function updateMobileLayout() {
+      // Mede altura da search-bar (sem os chips) pra posicionar o dropdown
+      const searchBarEl = document.querySelector('.search-bar');
+      if (searchBarEl) {
+        const h = searchBarEl.getBoundingClientRect().height;
+        document.documentElement.style.setProperty('--search-bar-h', h + 'px');
+      }
+
       if (!isMobile()) {
         searchWrapEl.style.top = '';
         document.documentElement.style.setProperty('--avail-h', '');
@@ -1097,6 +1238,7 @@
         initMapa();
         await carregarTudo();
         adicionarMarcadores();
+        renderChips();
         atualizarContadorTotal();
         renderEmpty();          // troca o loading pelo estado vazio inicial
         updateMobileLayout();

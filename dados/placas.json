@@ -1,0 +1,25 @@
+[
+  {
+    "id": "placa-imigracao",
+    "nome": "Placa da Imigração Italiana",
+    "local": "Praça da Bandeira",
+    "latitude": -29.029500,
+    "longitude": -51.181700,
+    "descricao": "Placa comemorativa em homenagem aos imigrantes italianos que colonizaram a região no final do século XIX."
+  },
+  {
+    "id": "placa-pioneiros",
+    "nome": "Placa dos Pioneiros",
+    "local": "Parque dos Pioneiros",
+    "latitude": -29.026800,
+    "longitude": -51.184500,
+    "descricao": "Marco histórico que homenageia as primeiras famílias a se estabelecerem na então Nova Trento."
+  },
+  {
+    "id": "placa-centenario",
+    "nome": "Placa do Centenário",
+    "latitude": -29.030200,
+    "longitude": -51.180100,
+    "descricao": "Placa instalada em 2024 marcando os 100 anos de emancipação política de Flores da Cunha."
+  }
+]

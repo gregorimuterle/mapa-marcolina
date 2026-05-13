@@ -13,6 +13,30 @@
         { "key": "ano_fato", "label": "Ano do Fato", "tipo": "ano_pilula", "prefixo": "Fato de " },
         { "key": "fato", "label": "Fato Histórico", "tipo": "texto" }
       ]
+    },
+    {
+      "id": "placas",
+      "nome": "Placas",
+      "icone": "🪧",
+      "cor": "#5d6d7e",
+      "estilo_pin": "icone",
+      "arquivo": "dados/placas.json",
+      "foto_padrao": "img/placas/{id}.jpeg",
+      "campos": [
+        { "key": "descricao", "label": "Descrição", "tipo": "texto" }
+      ]
+    },
+    {
+      "id": "igrejas",
+      "nome": "Igrejas",
+      "icone": "⛪",
+      "cor": "#8d6e3a",
+      "estilo_pin": "icone",
+      "arquivo": "dados/igrejas.json",
+      "foto_padrao": "img/igrejas/{id}.jpeg",
+      "campos": [
+        { "key": "descricao", "label": "Descrição", "tipo": "texto" }
+      ]
     }
   ]
 }
