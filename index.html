@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa · Equipe MARCOLINA · Flores da Cunha</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin="" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --marcolina: #fd632d;
+      --marcolina-dark: #d44a18;
+      --marcolina-light: #ffe8dc;
+      --ink: #1a1a1a;
+      --paper: #fafaf7;
+      --muted: #6b6b6b;
+      --line: #e6e3dc;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: var(--marcolina);
+      color: white;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      z-index: 1000;
+      flex-shrink: 0;
+    }
+    .brand { display: flex; align-items: baseline; gap: 16px; }
+    .brand-name {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+    }
+    .brand-divider {
+      width: 1px; height: 22px;
+      background: rgba(255,255,255,0.4);
+      align-self: center;
+    }
+    .brand-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 500;
+      font-size: 18px;
+      font-style: italic;
+    }
+    .stats { display: flex; gap: 18px; font-size: 13px; font-weight: 500; }
+    .stat {
+      background: rgba(255,255,255,0.15);
+      padding: 6px 14px;
+      border-radius: 20px;
+      backdrop-filter: blur(4px);
+    }
+    .stat strong { font-weight: 700; }
+
+    /* Main layout */
+    .main { display: flex; flex: 1; min-height: 0; }
+    #map { flex: 1; height: 100%; background: #e8e8e6; }
+    .leaflet-tile-pane {
+      filter: grayscale(80%) contrast(0.95) brightness(1.05);
+    }
+
+    aside {
+      width: 380px;
+      background: var(--paper);
+      border-left: 1px solid var(--line);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Estado vazio */
+    .panel-empty { padding: 40px 28px; text-align: center; color: var(--muted); }
+    .panel-empty .icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+    .panel-empty h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .panel-empty p { font-size: 14px; line-height: 1.5; }
+
+    /* Card de item selecionado */
+    .item-card { padding: 0; animation: slideIn 0.3s ease-out; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .item-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(135deg, var(--marcolina-light), #fff5ee);
+      position: relative; overflow: hidden;
+    }
+    .item-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Badge da categoria no canto da foto. Cor vem via --cat-color. */
+    .item-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--cat-color, var(--marcolina));
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800; font-size: 20px; letter-spacing: 0.5px;
+      padding: 4px 12px; border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .item-body { padding: 24px 24px 28px; }
+
+    .item-cat-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--cat-color, var(--marcolina));
+      margin-bottom: 8px;
+    }
+    .item-nome {
+      font-family: 'Fraunces', serif;
+      font-weight: 700; font-size: 28px; line-height: 1.15;
+      margin-bottom: 22px; padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+    }
+
+    /* Campos dinâmicos no painel */
+    .item-field { margin-top: 18px; }
+    .item-field:first-child { margin-top: 0; }
+    .item-field-label {
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      color: var(--cat-color, var(--marcolina));
+      margin-bottom: 6px;
+    }
+    .item-field-value {
+      font-size: 15px; line-height: 1.5;
+      white-space: pre-line;  /* preserva quebras \n nos textos */
+    }
+    .item-field-pilula {
+      display: inline-block;
+      background: var(--marcolina-light);
+      color: var(--marcolina-dark);
+      padding: 3px 10px; border-radius: 12px;
+      font-size: 12px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* === SEARCH BAR === */
+    .search-wrap {
+      position: relative;
+      background: white;
+      border-bottom: 1px solid var(--line);
+      z-index: 500;
+    }
+    .search-bar {
+      padding: 14px 20px;
+      display: flex; gap: 8px; align-items: center;
+      position: relative;
+    }
+    .search-bar input {
+      flex: 1;
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 38px 9px 14px;
+      font-family: inherit; font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    .search-bar input:focus { border-color: var(--marcolina); }
+
+    .search-clear {
+      position: absolute;
+      right: 28px; top: 50%;
+      transform: translateY(-50%);
+      width: 22px; height: 22px;
+      border: none;
+      background: var(--line);
+      border-radius: 50%;
+      color: var(--muted);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      line-height: 1;
+      padding: 0;
+      transition: background 0.15s, color 0.15s;
+    }
+    .search-clear:hover { background: var(--marcolina); color: white; }
+    .search-clear.visible { display: flex; }
+
+    .search-results {
+      position: absolute;
+      top: 100%; left: 20px; right: 20px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      max-height: 360px;
+      overflow-y: auto;
+      display: none;
+      z-index: 600;
+    }
+    .search-results.open { display: block; }
+
+    .search-result-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      display: flex; gap: 10px;
+      align-items: flex-start;
+      transition: background 0.1s;
+    }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover,
+    .search-result-item.kbd-active { background: var(--marcolina-light); }
+
+    .sr-badge {
+      flex-shrink: 0;
+      background: var(--cat-color, var(--marcolina));
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-weight: 800; font-size: 12px;
+      padding: 3px 8px; border-radius: 4px;
+      min-width: 36px; text-align: center;
+      letter-spacing: 0.3px;
+    }
+    .sr-content { flex: 1; min-width: 0; }
+    .sr-nome {
+      font-size: 14px; font-weight: 600;
+      color: var(--ink); line-height: 1.3;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sr-snippet {
+      font-size: 12px; color: var(--muted); line-height: 1.3;
+      margin-top: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sr-content mark {
+      background: var(--marcolina-light);
+      color: var(--marcolina-dark);
+      font-weight: 700;
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    .search-empty {
+      padding: 18px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* === PINS === */
+    .pin {
+      width: 36px; height: 48px;
+      position: relative;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
+      cursor: pointer;
+      transition: transform 0.15s, filter 0.25s;
+    }
+    .pin svg { width: 100%; height: 100%; display: block; }
+    .pin svg path { transition: fill 0.25s; }
+
+    /* Conteúdo central do pin (número ou ícone) */
+    .pin-content {
+      position: absolute;
+      top: 9px; left: 0; right: 0;
+      text-align: center;
+      color: white;
+      pointer-events: none;
+      transition: color 0.25s;
+    }
+    .pin-numerado .pin-content {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+    .pin-icone .pin-content {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .pin:hover { transform: translateY(-2px) scale(1.05); }
+
+    /* Estados do pin */
+    .pin.active {
+      transform: translateY(-2px) scale(1.1);
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+    }
+    /* No estado ativo escurece a cor base via filter */
+    .pin.active svg path { filter: brightness(0.85); }
+
+    .pin.dimmed svg path {
+      fill: #b8b8b8 !important;
+      stroke: #ededed;
+    }
+    .pin.dimmed .pin-content { color: #ededed; }
+    .pin.dimmed { filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15)); }
+    .pin.dimmed:hover svg path { fill: #999 !important; }
+
+    /* === MOBILE === */
+    @media (max-width: 768px) {
+      .main { flex-direction: column; }
+
+      aside {
+        width: 100%;
+        max-height: 60vh;
+        border-left: none;
+        border-top: 1px solid var(--line);
+      }
+      #map { min-height: 40vh; }
+      .brand-title { display: none; }
+      .stats { gap: 8px; }
+      .stat { padding: 4px 10px; font-size: 12px; }
+
+      /* Busca sticky no topo */
+      .search-wrap {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 900;
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      }
+      .search-bar { padding: 10px 14px; }
+      .search-results {
+        left: 14px; right: 14px;
+        max-height: min(360px, calc(var(--avail-h, 60vh) - 60px));
+      }
+
+      /* Reordenação: texto antes, foto depois */
+      .item-card { display: flex; flex-direction: column-reverse; }
+      .item-nome { border-bottom: none; padding-bottom: 0; margin-bottom: 18px; }
+      .item-photo { margin-top: 4px; border-top: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-name">MARCOLINA</span>
+      <span class="brand-divider"></span>
+      <span class="brand-title">Mapa · Flores da Cunha</span>
+    </div>
+    <div class="stats">
+      <span class="stat"><strong id="stat-count">0</strong> pontos mapeados</span>
+    </div>
+  </header>
+
+  <div class="main">
+    <div id="map"></div>
+
+    <aside>
+      <div class="search-wrap">
+        <div class="search-bar">
+          <input type="text" id="search" placeholder="Buscar por nome, número ou texto..." autocomplete="off" />
+          <button type="button" class="search-clear" id="search-clear" aria-label="Limpar busca">×</button>
+        </div>
+        <div class="search-results" id="search-results"></div>
+      </div>
+      <div id="panel">
+        <div class="panel-empty">
+          <div class="icon">📍</div>
+          <h2>Selecione um item</h2>
+          <p>Clique em qualquer marcador no mapa para ver os detalhes.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+
+  <script>
+    // ============================================================
+    // CONFIG
+    // ============================================================
+    const MANIFEST_URL = 'mapa.json';
+    const FLORES_DA_CUNHA = [-29.029, -51.181];
+
+    // ============================================================
+    // STATE
+    // Organizado pra suportar múltiplas categorias (Etapa 3+).
+    // Por ora só há uma categoria carregada.
+    // ============================================================
+    const state = {
+      categorias: [],                    // [{id, nome, icone, cor, estilo_pin, campos, ...}]
+      categoriasPorId: {},               // id -> categoria
+      itensPorCategoria: {},             // catId -> [item, ...]
+      itemPorChave: {},                  // "catId:itemId" -> { categoria, item }
+      markers: {},                       // "catId:itemId" -> L.Marker
+      categoriasVisiveis: new Set(),     // catIds visíveis no momento
+      itemAtivo: null,                   // "catId:itemId" ou null
+      ultimaBusca: { matches: [], query: '' }
+    };
+
+    // ============================================================
+    // UTILS
+    // ============================================================
+    function chaveItem(catId, itemId) {
+      return `${catId}:${itemId}`;
+    }
+
+    function norm(s) {
+      return String(s ?? '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+    }
+
+    function esc(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    // Substitui {id}, {nome} etc. num template de path
+    function expandirTemplate(tmpl, item) {
+      return String(tmpl).replace(/\{(\w+)\}/g, (_, key) =>
+        item[key] != null ? String(item[key]) : ''
+      );
+    }
+
+    // Marca termo no texto (case+acento insensitive). Retorna HTML com <mark>.
+    function highlight(text, query) {
+      if (!query) return esc(text);
+      const original = String(text ?? '');
+      const normText = norm(original);
+      const normQuery = norm(query);
+      if (!normQuery) return esc(original);
+
+      let result = '';
+      let i = 0;
+      while (i < original.length) {
+        const idx = normText.indexOf(normQuery, i);
+        if (idx === -1) {
+          result += esc(original.slice(i));
+          break;
+        }
+        result += esc(original.slice(i, idx));
+        result += '<mark>' + esc(original.slice(idx, idx + normQuery.length)) + '</mark>';
+        i = idx + normQuery.length;
+      }
+      return result;
+    }
+
+    function fotoUrl(categoria, item) {
+      // Item pode ter "foto" próprio; senão usa o padrão da categoria
+      if (item.foto) return item.foto;
+      if (categoria.foto_padrao) return expandirTemplate(categoria.foto_padrao, item);
+      return null;
+    }
+
+    // ============================================================
+    // DATA — carregamento do manifest e categorias
+    // ============================================================
+    async function carregarManifest() {
+      const r = await fetch(MANIFEST_URL);
+      if (!r.ok) throw new Error('Falha ao carregar ' + MANIFEST_URL);
+      return r.json();
+    }
+
+    async function carregarCategoria(cat) {
+      const r = await fetch(cat.arquivo);
+      if (!r.ok) throw new Error('Falha ao carregar ' + cat.arquivo);
+      const itens = await r.json();
+      // Valida unicidade do id dentro da categoria
+      const vistos = new Set();
+      for (const item of itens) {
+        if (item.id == null) {
+          console.warn(`Item sem id na categoria ${cat.id}`, item);
+          continue;
+        }
+        if (vistos.has(item.id)) {
+          console.warn(`ID duplicado "${item.id}" na categoria ${cat.id}`);
+        }
+        vistos.add(item.id);
+      }
+      return itens;
+    }
+
+    async function carregarTudo() {
+      const manifest = await carregarManifest();
+      if (manifest.titulo) {
+        // Atualiza título da aba dinamicamente caso queira sobrescrever
+        // (atualmente o <title> já está estático, mas isso permite override)
+      }
+
+      state.categorias = manifest.categorias;
+      state.categoriasPorId = {};
+      for (const cat of state.categorias) {
+        state.categoriasPorId[cat.id] = cat;
+        state.categoriasVisiveis.add(cat.id);
+      }
+
+      // Carrega todos os arquivos em paralelo
+      const resultados = await Promise.all(
+        state.categorias.map(cat =>
+          carregarCategoria(cat).then(itens => ({ cat, itens }))
+        )
+      );
+
+      for (const { cat, itens } of resultados) {
+        state.itensPorCategoria[cat.id] = itens;
+        for (const item of itens) {
+          state.itemPorChave[chaveItem(cat.id, item.id)] = { categoria: cat, item };
+        }
+      }
+    }
+
+    // ============================================================
+    // ICONS — factory de pins por estilo
+    // ============================================================
+    function criarIcone(categoria, item) {
+      const cor = categoria.cor;
+      const corDark = escurecer(cor, 0.2);
+      const estilo = categoria.estilo_pin || 'numerado';
+
+      let conteudo = '';
+      if (estilo === 'numerado') {
+        conteudo = `<span class="pin-content">${esc(item.id)}</span>`;
+      } else if (estilo === 'icone') {
+        conteudo = `<span class="pin-content">${categoria.icone || '📍'}</span>`;
+      }
+      // 'ponto' não tem conteúdo central
+
+      const html = `
+        <div class="pin pin-${estilo}" data-cat="${esc(categoria.id)}" data-id="${esc(item.id)}" style="--cat-color: ${cor}; --cat-color-dark: ${corDark}">
+          <svg viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 0C8.1 0 0 8.1 0 18c0 4.5 1.7 8.6 4.4 11.7L18 48l13.6-18.3C34.3 26.6 36 22.5 36 18 36 8.1 27.9 0 18 0z"
+                  fill="${cor}" stroke="white" stroke-width="2.5"/>
+          </svg>
+          ${conteudo}
+        </div>
+      `;
+
+      return L.divIcon({
+        className: '',
+        html,
+        iconSize: [36, 48],
+        iconAnchor: [18, 48]
+      });
+    }
+
+    // Escurece uma cor hex em ~20% (usado pro estado active do pin)
+    function escurecer(hex, frac) {
+      const m = /^#?([a-f0-9]{6})$/i.exec(hex);
+      if (!m) return hex;
+      const n = parseInt(m[1], 16);
+      const r = Math.max(0, Math.round(((n >> 16) & 0xff) * (1 - frac)));
+      const g = Math.max(0, Math.round(((n >> 8) & 0xff) * (1 - frac)));
+      const b = Math.max(0, Math.round((n & 0xff) * (1 - frac)));
+      return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+    }
+
+    // ============================================================
+    // MAP
+    // ============================================================
+    let map;
+
+    function initMapa() {
+      map = L.map('map', {
+        center: FLORES_DA_CUNHA,
+        zoom: 15,
+        zoomControl: true
+      });
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · MARCOLINA',
+        maxZoom: 19
+      }).addTo(map);
+
+      map.on('click dragstart', () => closeDropdown());
+    }
+
+    function adicionarMarcadores() {
+      const bounds = [];
+      for (const cat of state.categorias) {
+        const itens = state.itensPorCategoria[cat.id] || [];
+        for (const item of itens) {
+          const m = L.marker([item.latitude, item.longitude], {
+            icon: criarIcone(cat, item)
+          }).addTo(map);
+          const chave = chaveItem(cat.id, item.id);
+          state.markers[chave] = m;
+          m.on('click', () => onMarkerClick(cat, item));
+          bounds.push([item.latitude, item.longitude]);
+        }
+      }
+
+      if (bounds.length > 1) {
+        map.fitBounds(bounds, { padding: [60, 60] });
+      } else if (bounds.length === 1) {
+        map.setView(bounds[0], 17);
+      }
+    }
+
+    function onMarkerClick(categoria, item) {
+      const chave = chaveItem(categoria.id, item.id);
+      if (state.itemAtivo === chave) {
+        // Toggle: clicou no mesmo, fecha
+        state.itemAtivo = null;
+        atualizarPinAtivo(null);
+        renderEmpty();
+      } else {
+        state.itemAtivo = chave;
+        atualizarPinAtivo(chave);
+        renderItem(categoria, item);
+      }
+    }
+
+    function atualizarPinAtivo(chave) {
+      document.querySelectorAll('.pin').forEach(el => el.classList.remove('active'));
+      if (chave) {
+        const [catId, itemId] = chave.split(':');
+        const el = document.querySelector(`.pin[data-cat="${CSS.escape(catId)}"][data-id="${CSS.escape(itemId)}"]`);
+        if (el) el.classList.add('active');
+      }
+    }
+
+    // Aplica/remove dim. matchSet = Set de chaves "catId:itemId" que ficam destacadas.
+    // null = remove dim de todos.
+    function atualizarDim(matchSet) {
+      document.querySelectorAll('.pin').forEach(el => {
+        const k = chaveItem(el.dataset.cat, el.dataset.id);
+        if (matchSet === null) {
+          el.classList.remove('dimmed');
+        } else if (matchSet.has(k)) {
+          el.classList.remove('dimmed');
+        } else {
+          el.classList.add('dimmed');
+        }
+      });
+    }
+
+    // Atualiza o contador no header
+    function atualizarContadorTotal() {
+      let total = 0;
+      for (const cat of state.categorias) {
+        if (state.categoriasVisiveis.has(cat.id)) {
+          total += (state.itensPorCategoria[cat.id] || []).length;
+        }
+      }
+      document.getElementById('stat-count').textContent = total;
+    }
+
+    // ============================================================
+    // PANEL — renderização dirigida pela configuração da categoria
+    // ============================================================
+    function renderEmpty() {
+      document.getElementById('panel').innerHTML = `
+        <div class="panel-empty">
+          <div class="icon">📍</div>
+          <h2>Selecione um item</h2>
+          <p>Clique em qualquer marcador no mapa para ver os detalhes.</p>
+        </div>
+      `;
+    }
+
+    function renderItem(categoria, item) {
+      const panel = document.getElementById('panel');
+      const cor = categoria.cor;
+
+      // Foto (opcional). Se path existir, tenta carregar; onerror esconde tudo.
+      let fotoHtml = '';
+      const fUrl = fotoUrl(categoria, item);
+      if (fUrl) {
+        fotoHtml = `
+          <div class="item-photo" data-photo-wrap>
+            <div class="item-badge">${esc(formatarIdParaBadge(categoria, item))}</div>
+            <img src="${esc(fUrl)}" alt="${esc(item.nome)}"
+                 onerror="this.parentElement.style.display='none';" />
+          </div>
+        `;
+      }
+
+      // Renderiza cada campo configurado na categoria
+      const camposHtml = (categoria.campos || []).map(campo => {
+        const valor = item[campo.key];
+        if (valor == null || valor === '') return '';
+        return renderCampo(campo, valor);
+      }).join('');
+
+      panel.innerHTML = `
+        <div class="item-card" style="--cat-color: ${cor}">
+          ${fotoHtml}
+          <div class="item-body">
+            <div class="item-cat-label">${esc(categoria.nome)}</div>
+            <h2 class="item-nome">${esc(item.nome)}</h2>
+            ${camposHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    // Formata o ID pra mostrar no badge da foto.
+    // Numerado: "N° 47". Outros estilos: só o id ou o ícone da categoria.
+    function formatarIdParaBadge(categoria, item) {
+      if (categoria.estilo_pin === 'numerado') {
+        return 'N° ' + item.id;
+      }
+      return categoria.icone || '';
+    }
+
+    // Renderiza um campo conforme seu tipo
+    function renderCampo(campo, valor) {
+      const label = esc(campo.label || '');
+      if (campo.tipo === 'ano_pilula') {
+        const prefixo = campo.prefixo || '';
+        return `
+          <div class="item-field">
+            <div class="item-field-label">${label}</div>
+            <div class="item-field-pilula">${esc(prefixo)}${esc(valor)}</div>
+          </div>
+        `;
+      }
+      // tipo padrão: texto
+      return `
+        <div class="item-field">
+          <div class="item-field-label">${label}</div>
+          <div class="item-field-value">${esc(valor)}</div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // SEARCH — generalizada por categoria
+    // ============================================================
+    const searchInput = document.getElementById('search');
+    const searchClear = document.getElementById('search-clear');
+    const searchResults = document.getElementById('search-results');
+    let kbdIndex = -1;
+
+    function isNumericQuery(q) {
+      return /^\d+$/.test(q.trim());
+    }
+
+    // Coleta os campos buscáveis de uma categoria (textos + anos)
+    function camposBuscaveis(categoria) {
+      const tiposBuscaveis = new Set(['texto', 'ano_pilula', 'ano']);
+      return (categoria.campos || []).filter(c => tiposBuscaveis.has(c.tipo));
+    }
+
+    function buscar(rawQuery) {
+      const q = rawQuery.trim();
+      if (!q) return [];
+      const numeric = isNumericQuery(q);
+      // Trigger: numérico = qualquer comprimento; texto = mín 3
+      if (!numeric && q.length < 3) return [];
+
+      const nq = norm(q);
+      const results = [];
+
+      for (const cat of state.categorias) {
+        if (!state.categoriasVisiveis.has(cat.id)) continue;  // (b): respeita filtro
+
+        const itens = state.itensPorCategoria[cat.id] || [];
+        const campos = camposBuscaveis(cat);
+
+        for (const item of itens) {
+          const hits = [];
+
+          // Match por ID (numérico)
+          if (numeric && typeof item.id === 'number' && String(item.id).includes(q)) {
+            hits.push({ tipo: 'id', key: 'id', valor: item.id });
+          }
+
+          // Match no nome (sempre busca)
+          if (norm(item.nome).includes(nq)) {
+            hits.push({ tipo: 'nome', key: 'nome', valor: item.nome });
+          }
+
+          // Match nos campos configurados
+          for (const c of campos) {
+            const v = item[c.key];
+            if (v == null) continue;
+            const sv = String(v);
+            const bate = numeric ? sv.includes(q) : norm(sv).includes(nq);
+            if (bate) {
+              hits.push({ tipo: c.tipo, key: c.key, valor: v, label: c.label });
+            }
+          }
+
+          if (hits.length > 0) {
+            results.push({ categoria: cat, item, hits });
+          }
+        }
+      }
+
+      return results;
+    }
+
+    function renderDropdown(rawQuery, results) {
+      const q = rawQuery.trim();
+      const numeric = isNumericQuery(q);
+      const tooShort = !numeric && q.length < 3 && q.length > 0;
+
+      if (tooShort) {
+        searchResults.innerHTML = `<div class="search-empty">Digite ao menos 3 letras…</div>`;
+        searchResults.classList.add('open');
+        return;
+      }
+      if (!q) {
+        closeDropdown();
+        return;
+      }
+      if (results.length === 0) {
+        searchResults.innerHTML = `<div class="search-empty">Nenhum resultado para "${esc(q)}"</div>`;
+        searchResults.classList.add('open');
+        return;
+      }
+
+      const limited = results.slice(0, 8);
+      searchResults.innerHTML = limited.map((res, i) => {
+        const { categoria, item, hits } = res;
+
+        // Decide o snippet: primeiro hit que não seja 'nome' nem 'id'
+        let snippet = '';
+        const hitTexto = hits.find(h => h.tipo === 'texto');
+        const hitAno = hits.find(h => h.tipo === 'ano_pilula' || h.tipo === 'ano');
+        if (hitTexto) {
+          snippet = highlight(hitTexto.valor, q);
+        } else if (hitAno) {
+          snippet = `${esc(hitAno.label || 'Ano')}: ${highlight(String(hitAno.valor), q)}`;
+        } else {
+          // Sem hit de campo: mostra um resumo curto se houver
+          const primeiro = (categoria.campos || []).find(c => item[c.key] != null);
+          if (primeiro) {
+            const v = item[primeiro.key];
+            snippet = esc(String(v).slice(0, 80));
+          }
+        }
+
+        const nomeHtml = hits.some(h => h.tipo === 'nome') ? highlight(item.nome, q) : esc(item.nome);
+
+        // Badge: número (se numerado) ou ícone da categoria
+        const badgeContent = categoria.estilo_pin === 'numerado'
+          ? (hits.some(h => h.tipo === 'id') ? highlight(String(item.id), q) : esc(String(item.id)))
+          : esc(categoria.icone || '');
+
+        return `
+          <div class="search-result-item" data-cat="${esc(categoria.id)}" data-id="${esc(item.id)}" data-idx="${i}" style="--cat-color: ${categoria.cor}">
+            <div class="sr-badge">${badgeContent}</div>
+            <div class="sr-content">
+              <div class="sr-nome">${nomeHtml}</div>
+              <div class="sr-snippet">${snippet}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (results.length > 8) {
+        searchResults.innerHTML += `<div class="search-empty" style="border-top:1px solid var(--line);">+${results.length - 8} outros resultados destacados no mapa</div>`;
+      }
+
+      searchResults.classList.add('open');
+      kbdIndex = -1;
+    }
+
+    function closeDropdown() {
+      searchResults.classList.remove('open');
+      kbdIndex = -1;
+    }
+
+    function selecionarResultado(catId, itemId) {
+      const entry = state.itemPorChave[chaveItem(catId, itemId)];
+      if (!entry) return;
+      const { categoria, item } = entry;
+      map.panTo([item.latitude, item.longitude], { animate: true });
+      state.itemAtivo = chaveItem(catId, itemId);
+      renderItem(categoria, item);
+      atualizarPinAtivo(state.itemAtivo);
+      closeDropdown();
+    }
+
+    function clearSearch() {
+      searchInput.value = '';
+      searchClear.classList.remove('visible');
+      closeDropdown();
+      atualizarDim(null);
+      state.ultimaBusca = { matches: [], query: '' };
+    }
+
+    function aplicarBuscaNoMapa(rawQuery, results) {
+      const q = rawQuery.trim();
+      const numeric = isNumericQuery(q);
+      const triggers = q && (numeric || q.length >= 3);
+
+      if (!triggers) {
+        atualizarDim(null);
+        return;
+      }
+      if (results.length === 0) {
+        atualizarDim(new Set());
+        return;
+      }
+      const chaves = new Set(results.map(r => chaveItem(r.categoria.id, r.item.id)));
+      atualizarDim(chaves);
+    }
+
+    // Listeners da busca
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value;
+      searchClear.classList.toggle('visible', q.length > 0);
+      const results = buscar(q);
+      state.ultimaBusca = { matches: results, query: q };
+      aplicarBuscaNoMapa(q, results);
+      renderDropdown(q, results);
+    });
+
+    searchClear.addEventListener('click', () => {
+      clearSearch();
+      searchInput.focus();
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      const items = searchResults.querySelectorAll('.search-result-item');
+
+      if (e.key === 'Escape') {
+        if (searchInput.value) clearSearch();
+        else closeDropdown();
+        return;
+      }
+      if (e.key === 'ArrowDown' && items.length > 0) {
+        e.preventDefault();
+        kbdIndex = (kbdIndex + 1) % items.length;
+        items.forEach(el => el.classList.remove('kbd-active'));
+        items[kbdIndex].classList.add('kbd-active');
+        items[kbdIndex].scrollIntoView({ block: 'nearest' });
+        return;
+      }
+      if (e.key === 'ArrowUp' && items.length > 0) {
+        e.preventDefault();
+        kbdIndex = kbdIndex <= 0 ? items.length - 1 : kbdIndex - 1;
+        items.forEach(el => el.classList.remove('kbd-active'));
+        items[kbdIndex].classList.add('kbd-active');
+        items[kbdIndex].scrollIntoView({ block: 'nearest' });
+        return;
+      }
+      if (e.key === 'Enter' && items.length > 0) {
+        e.preventDefault();
+        const target = kbdIndex >= 0 ? items[kbdIndex] : items[0];
+        selecionarResultado(target.dataset.cat, target.dataset.id);
+      }
+    });
+
+    searchResults.addEventListener('click', (e) => {
+      const item = e.target.closest('.search-result-item');
+      if (item) selecionarResultado(item.dataset.cat, item.dataset.id);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-wrap')) closeDropdown();
+    });
+
+    searchInput.addEventListener('focus', () => {
+      if (searchInput.value.trim()) {
+        const results = buscar(searchInput.value);
+        renderDropdown(searchInput.value, results);
+      }
+    });
+
+    // ============================================================
+    // LAYOUT — ajustes mobile
+    // ============================================================
+    const headerEl = document.querySelector('header');
+    const searchWrapEl = document.querySelector('.search-wrap');
+
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+
+    function updateMobileLayout() {
+      if (!isMobile()) {
+        searchWrapEl.style.top = '';
+        document.documentElement.style.setProperty('--avail-h', '');
+        return;
+      }
+      const headerH = headerEl.getBoundingClientRect().height;
+      searchWrapEl.style.top = headerH + 'px';
+
+      const viewportH = window.visualViewport
+        ? window.visualViewport.height
+        : window.innerHeight;
+      const searchH = searchWrapEl.getBoundingClientRect().height;
+      const avail = Math.max(120, viewportH - headerH - searchH - 12);
+      document.documentElement.style.setProperty('--avail-h', avail + 'px');
+    }
+
+    window.addEventListener('resize', updateMobileLayout);
+    window.addEventListener('orientationchange', updateMobileLayout);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', updateMobileLayout);
+      window.visualViewport.addEventListener('scroll', updateMobileLayout);
+    }
+    searchInput.addEventListener('focus', updateMobileLayout);
+    searchInput.addEventListener('blur', () => {
+      setTimeout(updateMobileLayout, 150);
+    });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    (async function init() {
+      try {
+        initMapa();
+        await carregarTudo();
+        adicionarMarcadores();
+        atualizarContadorTotal();
+        updateMobileLayout();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('panel').innerHTML = `
+          <div class="panel-empty">
+            <div class="icon">⚠️</div>
+            <h2>Erro ao carregar dados</h2>
+            <p>${esc(err.message)}<br><br>Verifique se os arquivos <strong>mapa.json</strong> e <strong>dados/*.json</strong> estão no lugar correto.</p>
+          </div>
+        `;
+      }
+    })();
+  </script>
+</body>
+</html>
