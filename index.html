@@ -316,12 +316,8 @@
       padding: 10px 20px 12px;
       background: white;
       border-bottom: 1px solid var(--line);
-      overflow-x: auto;
-      flex-wrap: nowrap;
-      scrollbar-width: thin;
+      flex-wrap: wrap;
     }
-    .chips-bar::-webkit-scrollbar { height: 4px; }
-    .chips-bar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
 
     .chip {
       flex-shrink: 0;
@@ -354,7 +350,7 @@
       color: white;
     }
 
-    .chip-icone { font-size: 14px; line-height: 1; }
+    .chip-icone { display: none; }
     .chip-count {
       background: var(--line);
       color: var(--muted);
