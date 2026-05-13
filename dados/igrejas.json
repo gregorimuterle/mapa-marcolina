@@ -1,8 +1,7 @@
 [
   {
-    "id": "matriz-santa-rita",
+    "id": "igreja-matriz",
     "nome": "Igreja Matriz Santa Rita de Cássia",
-    "local": "Centro",
     "latitude": -29.029100,
     "longitude": -51.181500,
     "descricao": "Igreja matriz do município, construída no início do século XX. Importante patrimônio histórico e religioso de Flores da Cunha."
@@ -10,7 +9,6 @@
   {
     "id": "sao-pedro",
     "nome": "Capela São Pedro",
-    "local": "Bairro União",
     "latitude": -29.027400,
     "longitude": -51.187200,
     "descricao": "Capela do bairro União, ponto de encontro tradicional da comunidade local."
@@ -18,7 +16,6 @@
   {
     "id": "sao-francisco",
     "nome": "Igreja São Francisco de Assis",
-    "local": "Bairro São Francisco",
     "latitude": -29.032100,
     "longitude": -51.179800,
     "descricao": "Igreja dedicada a São Francisco de Assis, padroeiro do parque natural homônimo do município."
