@@ -21,7 +21,7 @@
       "cor": "#5d6d7e",
       "estilo_pin": "icone",
       "arquivo": "dados/placas.json",
-      "foto_padrao": "img/placas/{id}.jpeg",
+      "foto_padrao": "img/placas/{id}.jpg",
       "campos": [
         { "key": "descricao", "label": "Descrição", "tipo": "texto" }
       ]
@@ -33,7 +33,7 @@
       "cor": "#8d6e3a",
       "estilo_pin": "icone",
       "arquivo": "dados/igrejas.json",
-      "foto_padrao": "img/igrejas/{id}.jpeg",
+      "foto_padrao": "img/igrejas/{id}.jpg",
       "campos": [
         { "key": "descricao", "label": "Descrição", "tipo": "texto" }
       ]
