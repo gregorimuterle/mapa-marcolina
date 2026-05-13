@@ -103,6 +103,24 @@
     }
     .panel-empty p { font-size: 14px; line-height: 1.5; }
 
+    /* Loading */
+    .panel-loading {
+      padding: 40px 28px;
+      text-align: center;
+      color: var(--muted);
+    }
+    .panel-loading .spinner {
+      display: inline-block;
+      width: 28px; height: 28px;
+      border: 3px solid var(--line);
+      border-top-color: var(--marcolina);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 14px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .panel-loading p { font-size: 13px; }
+
     /* Card de item selecionado */
     .item-card { padding: 0; animation: slideIn 0.3s ease-out; }
     @keyframes slideIn {
@@ -140,9 +158,24 @@
     .item-nome {
       font-family: 'Fraunces', serif;
       font-weight: 700; font-size: 28px; line-height: 1.15;
-      margin-bottom: 22px; padding-bottom: 22px;
-      border-bottom: 1px solid var(--line);
+      margin-bottom: 8px;
       color: var(--ink);
+    }
+    /* Subtítulo opcional: aparece só se o item tiver campo "local" */
+    .item-local {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 22px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+      font-weight: 500;
+    }
+    /* Quando não tem local, o nome vira o último elemento antes dos campos */
+    .item-nome:last-child,
+    .item-nome.no-local {
+      margin-bottom: 22px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
     }
 
     /* Campos dinâmicos no painel */
@@ -353,7 +386,9 @@
 
       /* Reordenação: texto antes, foto depois */
       .item-card { display: flex; flex-direction: column-reverse; }
-      .item-nome { border-bottom: none; padding-bottom: 0; margin-bottom: 18px; }
+      .item-nome.no-local { border-bottom: none; padding-bottom: 0; margin-bottom: 8px; }
+      .item-local { border-bottom: none; padding-bottom: 0; margin-bottom: 18px; }
+      .item-nome:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 18px; }
       .item-photo { margin-top: 4px; border-top: 1px solid var(--line); }
     }
   </style>
@@ -382,10 +417,9 @@
         <div class="search-results" id="search-results"></div>
       </div>
       <div id="panel">
-        <div class="panel-empty">
-          <div class="icon">📍</div>
-          <h2>Selecione um item</h2>
-          <p>Clique em qualquer marcador no mapa para ver os detalhes.</p>
+        <div class="panel-loading">
+          <div class="spinner"></div>
+          <p>Carregando mapa…</p>
         </div>
       </div>
     </aside>
@@ -550,7 +584,7 @@
       // 'ponto' não tem conteúdo central
 
       const html = `
-        <div class="pin pin-${estilo}" data-cat="${esc(categoria.id)}" data-id="${esc(item.id)}" style="--cat-color: ${cor}; --cat-color-dark: ${corDark}">
+        <div class="pin pin-${estilo}" data-cat="${esc(categoria.id)}" data-id="${esc(item.id)}" title="${esc(item.nome)}" style="--cat-color: ${cor}; --cat-color-dark: ${corDark}">
           <svg viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 0C8.1 0 0 8.1 0 18c0 4.5 1.7 8.6 4.4 11.7L18 48l13.6-18.3C34.3 26.6 36 22.5 36 18 36 8.1 27.9 0 18 0z"
                   fill="${cor}" stroke="white" stroke-width="2.5"/>
@@ -699,7 +733,18 @@
         `;
       }
 
-      // Renderiza cada campo configurado na categoria
+      // Subtítulo opcional "local" — só aparece se o item tiver esse campo.
+      // Para árvores hoje, o "nome" já é o local, então não tem campo local separado.
+      // Para igrejas/placas no futuro, pode-se ter nome="Igreja São Pedro", local="Bairro União".
+      const temLocal = item.local && String(item.local).trim() !== '';
+      const localHtml = temLocal
+        ? `<div class="item-local">${esc(item.local)}</div>`
+        : '';
+      const nomeClass = temLocal ? 'item-nome' : 'item-nome no-local';
+
+      // Renderiza cada campo configurado na categoria.
+      // Itens podem ter campos extras não declarados no manifest — são ignorados de propósito,
+      // permitindo guardar dados auxiliares no JSON sem mostrar tudo na UI.
       const camposHtml = (categoria.campos || []).map(campo => {
         const valor = item[campo.key];
         if (valor == null || valor === '') return '';
@@ -711,7 +756,8 @@
           ${fotoHtml}
           <div class="item-body">
             <div class="item-cat-label">${esc(categoria.nome)}</div>
-            <h2 class="item-nome">${esc(item.nome)}</h2>
+            <h2 class="${nomeClass}">${esc(item.nome)}</h2>
+            ${localHtml}
             ${camposHtml}
           </div>
         </div>
@@ -781,18 +827,26 @@
 
         const itens = state.itensPorCategoria[cat.id] || [];
         const campos = camposBuscaveis(cat);
+        // Busca por ID só faz sentido em categorias com estilo 'numerado',
+        // onde o ID é visível ao usuário no pin
+        const buscaId = cat.estilo_pin === 'numerado';
 
         for (const item of itens) {
           const hits = [];
 
-          // Match por ID (numérico)
-          if (numeric && typeof item.id === 'number' && String(item.id).includes(q)) {
+          // Match por ID (só em categorias numeradas e query numérica)
+          if (numeric && buscaId && String(item.id).includes(q)) {
             hits.push({ tipo: 'id', key: 'id', valor: item.id });
           }
 
           // Match no nome (sempre busca)
           if (norm(item.nome).includes(nq)) {
             hits.push({ tipo: 'nome', key: 'nome', valor: item.nome });
+          }
+
+          // Match no local opcional (se existir no item)
+          if (item.local && norm(item.local).includes(nq)) {
+            hits.push({ tipo: 'local', key: 'local', valor: item.local });
           }
 
           // Match nos campos configurados
@@ -839,20 +893,32 @@
       searchResults.innerHTML = limited.map((res, i) => {
         const { categoria, item, hits } = res;
 
-        // Decide o snippet: primeiro hit que não seja 'nome' nem 'id'
+        // Snippet: prioriza o campo onde o match realmente aconteceu.
+        // Ordem de preferência: texto > local > ano > (fallback: primeiro campo do item)
         let snippet = '';
         const hitTexto = hits.find(h => h.tipo === 'texto');
+        const hitLocal = hits.find(h => h.tipo === 'local');
         const hitAno = hits.find(h => h.tipo === 'ano_pilula' || h.tipo === 'ano');
+
         if (hitTexto) {
           snippet = highlight(hitTexto.valor, q);
+        } else if (hitLocal) {
+          snippet = highlight(hitLocal.valor, q);
         } else if (hitAno) {
           snippet = `${esc(hitAno.label || 'Ano')}: ${highlight(String(hitAno.valor), q)}`;
         } else {
-          // Sem hit de campo: mostra um resumo curto se houver
-          const primeiro = (categoria.campos || []).find(c => item[c.key] != null);
-          if (primeiro) {
-            const v = item[primeiro.key];
-            snippet = esc(String(v).slice(0, 80));
+          // Match foi em nome ou id; mostra um resumo de algum campo de texto
+          // disponível, sem highlight (porque não houve match aqui).
+          if (item.local) {
+            snippet = esc(item.local);
+          } else {
+            const primeiro = (categoria.campos || []).find(c =>
+              (c.tipo === 'texto' || c.tipo === 'ano_pilula') && item[c.key] != null
+            );
+            if (primeiro) {
+              const v = item[primeiro.key];
+              snippet = esc(String(v).slice(0, 80));
+            }
           }
         }
 
@@ -1032,6 +1098,7 @@
         await carregarTudo();
         adicionarMarcadores();
         atualizarContadorTotal();
+        renderEmpty();          // troca o loading pelo estado vazio inicial
         updateMobileLayout();
       } catch (err) {
         console.error(err);
