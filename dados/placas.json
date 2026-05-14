@@ -1,25 +1,74 @@
 [
   {
-    "id": "placa-imigracao",
-    "nome": "Placa da Imigração Italiana",
-    "local": "Praça da Bandeira",
-    "latitude": -29.029500,
-    "longitude": -51.181700,
-    "descricao": "Placa comemorativa em homenagem aos imigrantes italianos que colonizaram a região no final do século XIX."
+    "id": "placa-alfredo-cruz-das-missoes",
+    "nome": "Cruz das Missões",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00765,
+    "longitude": -51.26268,
+    "descricao": "Lembrança das Santas Missões realizadas em:\n - 19 de maio de 1956\n - 06 de maio de 1962\n - 15 de maio de 1997\n 08 à 14 de junho de 2019"
   },
   {
-    "id": "placa-pioneiros",
-    "nome": "Placa dos Pioneiros",
-    "local": "Parque dos Pioneiros",
-    "latitude": -29.026800,
-    "longitude": -51.184500,
-    "descricao": "Marco histórico que homenageia as primeiras famílias a se estabelecerem na então Nova Trento."
+    "id": "placa-alfredo-festejo-125-anos",
+    "nome": "Festejo dos 125 anos",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00788,
+    "longitude": -51.26219,
+    "descricao": "Placa Festejo dos 125 anos com integrantes da comissão, e outras equipes."
   },
   {
-    "id": "placa-centenario",
-    "nome": "Placa do Centenário",
-    "latitude": -29.030200,
-    "longitude": -51.180100,
-    "descricao": "Placa instalada em 2024 marcando os 100 anos de emancipação política de Flores da Cunha."
+    "id": "placa-alfredo-inauguracao-entorno-igreja",
+    "nome": "Inauguração Entorno da Igreja São João Batista",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00767,
+    "longitude": -51.26251,
+    "descricao": "Inauguração Entorno da Igreja São João Batista"
+  },
+  {
+    "id": "monumento-alfredo-centenario",
+    "nome": "Monumento Centenário da Colonização Italiana",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00785,
+    "longitude": -51.26219,
+    "descricao": "Monumento Centenário da Colonização Italiana"
+  },
+  {
+    "id": "placa-alfredo-frase-ary-trentin",
+    "nome": "Placa Frase Ary N. Trentin",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00775,
+    "longitude": -51.26226,
+    "descricao": "Em nossos rostos trazemos, não apenas a imagem dos nossos antepassados, mas também a liberdade que tornou possível a construção desta comunidade. E esta terra tem um rosto que é o rosto de todos nós, vivendo hoje o mesmo ideal daqueles que nos precederam e preparando o futuro com a força da mesma fé.\n Nova Veneza, 10-11-91 Flores da Cunha."
+  },
+  {
+    "id": "placa-alfredo-homenagem-dom-luiz-scortegagna",
+    "nome": "Placa Homenagem a Dom Luiz Scortegagna",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00775,
+    "longitude": -51.26223,
+    "descricao": "Homenagem ao Dom Luiz Scortegagna, da administração do prefeito Raymundo Paviani.\n26-01-1969"
+  },
+  {
+    "id": "monumento-alfredo-nao-identificado",
+    "nome": "Monumento Não Identificado",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00796, 
+    "longitude": -51.26225,
+    "descricao": "Monumento não identificado na praça de Alfredo Chaves."
+  },
+  {
+    "id": "placa-alfredo-cicloturismo",
+    "nome": "Placa Cicloturismo",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00797,
+    "longitude": -51.26232,
+    "descricao": "Placa com o mapa da região e orientações gerais de cicloturismo."
+  },
+  {
+    "id": "placa-alfredo-centenario",
+    "nome": "Placa Centenário da Colonização Italiana",
+    "local": "Alfredo Chaves",
+    "latitude": -29.00786,
+    "longitude": -51.26219,
+    "descricao": "Placa do Centenário da Colonização Italiana do Alfredo Chaves."
   }
 ]

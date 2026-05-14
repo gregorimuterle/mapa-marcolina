@@ -2,22 +2,17 @@
   {
     "id": "igreja-matriz",
     "nome": "Igreja Matriz Santa Rita de Cássia",
+    "local": "Centro",
     "latitude": -29.029100,
     "longitude": -51.181500,
     "descricao": "Igreja matriz do município, construída no início do século XX. Importante patrimônio histórico e religioso de Flores da Cunha."
   },
   {
-    "id": "sao-pedro",
-    "nome": "Capela São Pedro",
-    "latitude": -29.027400,
-    "longitude": -51.187200,
-    "descricao": "Capela do bairro União, ponto de encontro tradicional da comunidade local."
-  },
-  {
-    "id": "sao-francisco",
-    "nome": "Igreja São Francisco de Assis",
-    "latitude": -29.032100,
-    "longitude": -51.179800,
-    "descricao": "Igreja dedicada a São Francisco de Assis, padroeiro do parque natural homônimo do município."
+    "id": "igreja-alfredo",
+    "nome": "Igreja São João Batista",
+    "local": "Travessão Alfredo Chaves",
+    "latitude": -29.00768,
+    "longitude": -51.26281,
+    "descricao": "A principal igreja de Alfredo Chaves. Foi construída por volta de 1924, enquanto o campanário saiu do papel em 1941."
   }
 ]
