@@ -130,10 +130,9 @@
 
     .item-photo {
       width: 100%;
-      aspect-ratio: 4 / 3;
       background: linear-gradient(135deg, var(--marcolina-light), #fff5ee);
       position: relative; overflow: hidden;
-      display: none;  /* só aparece após img carregar com sucesso */
+      display: none;
     }
     .item-photo.loaded { display: block; }
     .item-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -557,6 +556,27 @@
       return null;
     }
 
+    // Define o aspect-ratio da .item-photo conforme a proporção real da imagem.
+    // Regra: fotos paisagem mantêm proporção natural (sem corte).
+    //        Fotos retrato crescem até 2:3 (altura = 1.5× largura).
+    //        Acima disso, corta nas extremidades (cover).
+    // Recebe o <img> e ajusta o pai (.item-photo).
+    function ajustarFoto(imgEl) {
+      const wrap = imgEl.parentElement;
+      if (!wrap) return;
+      const w = imgEl.naturalWidth;
+      const h = imgEl.naturalHeight;
+      if (!w || !h) return;
+
+      const proporcaoReal = w / h;       // ex: 1.5 (paisagem), 0.75 (retrato)
+      const tetoRetrato = 2 / 3;          // altura = 1.5× largura → ratio = 0.666
+
+      const ratioFinal = Math.max(proporcaoReal, tetoRetrato);
+      wrap.style.aspectRatio = ratioFinal;
+
+      wrap.classList.add('loaded');
+    }
+
     // ============================================================
     // DATA — carregamento do manifest e categorias
     // ============================================================
@@ -770,13 +790,16 @@
       // Foto (opcional). A div começa escondida (display:none via CSS); só aparece
       // se a imagem carregar com sucesso (onload). Se falhar (onerror), permanece
       // escondida — sem piscar o bloco vazio.
+      // No onload, ajustamos o aspect-ratio da div pra acompanhar a proporção real
+      // da imagem, com um teto vertical de 2:3 (altura = 1.5× largura) pra fotos
+      // muito retrato — nesses casos a imagem é cortada nas extremidades.
       let fotoHtml = '';
       const fUrl = fotoUrl(categoria, item);
       if (fUrl) {
         fotoHtml = `
           <div class="item-photo" data-photo-wrap>
             <img src="${esc(fUrl)}" alt="${esc(item.nome)}"
-                 onload="this.parentElement.classList.add('loaded');"
+                 onload="ajustarFoto(this);"
                  onerror="this.parentElement.remove();" />
           </div>
         `;
