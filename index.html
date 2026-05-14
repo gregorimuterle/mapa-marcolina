@@ -558,7 +558,7 @@
 
     // Define o aspect-ratio da .item-photo conforme a proporção real da imagem.
     // Regra: fotos paisagem mantêm proporção natural (sem corte).
-    //        Fotos retrato crescem até 4:5.
+    //        Fotos retrato crescem até 1:1.
     //        Acima disso, corta nas extremidades (cover).
     // Recebe o <img> e ajusta o pai (.item-photo).
     function ajustarFoto(imgEl) {
@@ -569,7 +569,7 @@
       if (!w || !h) return;
 
       const proporcaoReal = w / h;
-      const tetoRetrato = 4 / 5;
+      const tetoRetrato = 1;
 
       const ratioFinal = Math.max(proporcaoReal, tetoRetrato);
       wrap.style.aspectRatio = ratioFinal;
