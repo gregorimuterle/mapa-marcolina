@@ -37,6 +37,18 @@
       "campos": [
         { "key": "descricao", "label": "Descrição", "tipo": "texto" }
       ]
+    },
+    {
+      "id": "locais",
+      "nome": "Locais",
+      "icone": "🏛️",
+      "cor": "#4a6fa5",
+      "estilo_pin": "icone",
+      "arquivo": "dados/locais.json",
+      "foto_padrao": "img/locais/{id}.jpg",
+      "campos": [
+        { "key": "descricao", "label": "Descrição", "tipo": "texto" }
+      ]
     }
   ]
 }

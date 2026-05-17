@@ -1,0 +1,50 @@
+[
+  {
+    "id": "local-carvalho-escola-antiga",
+    "nome": "Escola Antiga",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064242,
+    "longitude": -51.289644,
+    "descricao": "Antiga construção escolar do Travessão Carvalho, edificação histórica de um pavimento."
+  },
+  {
+    "id": "local-carvalho-salao-comunitario",
+    "nome": "Salão Comunitário",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064518,
+    "longitude": -51.290143,
+    "descricao": "Salão comunitário do Travessão Carvalho, próximo à Capela Nossa Senhora de Caravaggio."
+  },
+  {
+    "id": "local-linha60-cemiterio",
+    "nome": "Cemitério",
+    "local": "Linha 60",
+    "latitude": -29.084920,
+    "longitude": -51.219917,
+    "descricao": "Cemitério da comunidade da Linha 60, ao lado da Capela São Bartolomeu."
+  },
+  {
+    "id": "local-linha60-salao-comunitario",
+    "nome": "Salão Comunitário",
+    "local": "Linha 60",
+    "latitude": -29.084911,
+    "longitude": -51.219205,
+    "descricao": "Salão comunitário da Linha 60, edificação de dois pavimentos com telhado em arco."
+  },
+  {
+    "id": "local-linha60-escolinha-antiga",
+    "nome": "Escolinha Antiga",
+    "local": "Linha 60",
+    "latitude": -29.084658,
+    "longitude": -51.219444,
+    "descricao": "Antiga escola da Linha 60, situada no Travessão Felisberto da Silva. Atualmente o local abriga a sede da Uvas Tomazzoni."
+  },
+  {
+    "id": "local-linha60-estadio",
+    "nome": "Estádio S.E.R. Duque de Caxias",
+    "local": "Linha 60",
+    "latitude": -29.084276,
+    "longitude": -51.220345,
+    "descricao": "Estádio da Sociedade Esportiva e Recreativa Duque de Caxias, da Linha 60."
+  }
+]

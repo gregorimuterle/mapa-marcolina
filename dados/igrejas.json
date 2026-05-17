@@ -48,19 +48,11 @@
     "descricao": "Capitel rústico esculpido em pedra, integrado a uma formação rochosa natural, com escadaria de pedra de acesso."
   },
   {
-    "id": "local-carvalho-escola-antiga",
-    "nome": "Escola Antiga",
-    "local": "Travessão Carvalho",
-    "latitude": -29.064242,
-    "longitude": -51.289644,
-    "descricao": "Antiga construção escolar do Travessão Carvalho, edificação histórica de um pavimento."
-  },
-  {
-    "id": "local-carvalho-salao-comunitario",
-    "nome": "Salão Comunitário",
-    "local": "Travessão Carvalho",
-    "latitude": -29.064518,
-    "longitude": -51.290143,
-    "descricao": "Salão comunitário do Travessão Carvalho, próximo à Capela Nossa Senhora de Caravaggio."
+    "id": "igreja-linha60",
+    "nome": "Capela São Bartolomeu",
+    "local": "Linha 60",
+    "latitude": -29.084983,
+    "longitude": -51.218648,
+    "descricao": "Capela da Linha 60, com fachada em estilo neogótico, três pináculos com cruzes, entrada em arco ogival e torre sineira anexa em alvenaria de tijolos aparentes."
   }
 ]

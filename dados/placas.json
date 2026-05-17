@@ -77,7 +77,7 @@
     "local": "Travessão Carvalho",
     "latitude": -29.064548,
     "longitude": -51.289947,
-    "descricao": "Cruz comemorativa das Santas Missões realizadas no Travessão Carvalho."
+    "descricao": "Cruz comemorativa das Santas Missões realizadas no Travessão Carvalho. \n S.M. 26.4.39"
   },
   {
     "id": "placa-carvalho-ampliacao-igreja",
@@ -126,5 +126,29 @@
     "latitude": -29.064529,
     "longitude": -51.289872,
     "descricao": "Placa comemorativa da Rede de Abastecimento de Água do Travessão Carvalho. Lema: \"A comunidade unida ao Poder Público torna possível estas grandes obras.\" Travessão Carvalho, Flores da Cunha, 15 de maio de 2004."
+  },
+  {
+    "id": "placa-linha60-homenagem-centenario",
+    "nome": "Placa Homenagem ao Centenário",
+    "local": "Linha 60",
+    "latitude": -29.08495,
+    "longitude": -51.21899,
+    "descricao": "Homenagem aos bravos imigrantes italianos que plantaram o marco de fé e o início do progresso das famílias da Capela São Bartolomeu - Linha Sessenta. Placa colocada em 14-10-1983."
+  },
+  {
+    "id": "placa-linha60-sociedade-agua",
+    "nome": "Placa Sociedade de Água",
+    "local": "Linha 60",
+    "latitude": -29.08474,
+    "longitude": -51.21845,
+    "descricao": "Placa da Sociedade de Abastecimento de Água da Linha 60 - Sistema de Abastecimento Comunitário de Água. Flores da Cunha, 19 de novembro."
+  },
+  {
+    "id": "placa-linha60-cruz-missoes",
+    "nome": "Cruz das Missões",
+    "local": "Linha 60",
+    "latitude": -29.08288,
+    "longitude": -51.21818,
+    "descricao": "Cruz das Missões da Linha 60, instalada à margem da estrada próxima ao acesso a Otávio Rocha."
   }
 ]
