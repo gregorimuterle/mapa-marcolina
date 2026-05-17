@@ -166,5 +166,45 @@
     "latitude": -29.0872,
     "longitude": -51.26077,
     "descricao": "Conjunto de placas afixadas na torre do campanário: inauguração da Torre do Campanário de Sta Justina em 19 de junho de 1994; homenagem ao Sr. Domenico Lionzo, que em 11 de abril de 1908 retornou à Itália para adquirir o sino do campanário; e inauguração da automatização do sino em 2013."
+  },
+  {
+    "id": "placa-sao-tiago-cruz-missoes",
+    "nome": "Cruz das Missões",
+    "local": "Mato Perso",
+    "latitude": -29.10412,
+    "longitude": -51.31101,
+    "descricao": "Cruz das Missões da comunidade de São Tiago - Mato Perso, instalada junto ao cemitério."
+  },
+  {
+    "id": "placa-sao-tiago-pavimentacao",
+    "nome": "Placa Pavimentação Estrada das Hortênsias",
+    "local": "Mato Perso",
+    "latitude": -29.104163,
+    "longitude": -51.310991,
+    "descricao": "Placa da pavimentação asfáltica da Estrada das Hortênsias - trecho de 1,4 km, obra da Prefeitura de Flores da Cunha em parceria com a comunidade. Inaugurada em 18/12/2010."
+  },
+  {
+    "id": "placa-sao-tiago-peregrino",
+    "nome": "Placa do Peregrino",
+    "local": "Mato Perso",
+    "latitude": -29.104204,
+    "longitude": -51.310985,
+    "descricao": "\"De passo a passo se faz o caminho.\" Peregrinos da Serra Gaúcha. Comunidade de São Tiago. Mato Perso, 10/07/2005."
+  },
+  {
+    "id": "placa-sao-tiago-diversas",
+    "nome": "Conjunto de Placas",
+    "local": "Mato Perso",
+    "latitude": -29.104252,
+    "longitude": -51.310976,
+    "descricao": "Conjunto de placas: asfaltamento da Estrada São Tiago e construção da praça (Flores da Cunha, agosto de 2009); 120 anos da Capela de São Tiago com homenagem aos primeiros proprietários de terras com escritura; e Sistema de Água São Tiago - Mato Perso."
+  },
+  {
+    "id": "placa-sao-tiago-acasargs",
+    "nome": "Placa ACASARGS",
+    "local": "Mato Perso",
+    "latitude": -29.104312,
+    "longitude": -51.310974,
+    "descricao": "Placa da Associação dos Amigos do Caminho de Santiago de Compostela (ACASARGS), comemorando 20 anos de fundação junto ao Santo Peregrino, padroeiro da comunidade. 25/07/2019. Presidente: Adriana Reis. Vice-Presidente: Gilberto Adami."
   }
 ]
