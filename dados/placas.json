@@ -70,5 +70,61 @@
     "latitude": -29.00786,
     "longitude": -51.26219,
     "descricao": "Placa do Centenário da Colonização Italiana do Alfredo Chaves."
+  },
+  {
+    "id": "placa-carvalho-cruz-das-missoes",
+    "nome": "Cruz das Missões",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064548,
+    "longitude": -51.289947,
+    "descricao": "Cruz comemorativa das Santas Missões realizadas no Travessão Carvalho."
+  },
+  {
+    "id": "placa-carvalho-ampliacao-igreja",
+    "nome": "Placa Reforma e Ampliação da Capela",
+    "local": "Travessão Carvalho",
+    "latitude": -29.065166,
+    "longitude": -51.289991,
+    "descricao": "Placa em agradecimento às famílias e empresas colaboradoras da reforma e ampliação da Capela Nossa Senhora de Caravaggio. Flores da Cunha, 04 de outubro de 2015."
+  },
+  {
+    "id": "placa-carvalho-asfaltamento",
+    "nome": "Placa Asfaltamento Via Otávio Rocha-Carvalho",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064520,
+    "longitude": -51.289885,
+    "descricao": "Placa comemorativa do asfaltamento da via Otávio Rocha—Carvalho, durante a gestão do prefeito Heleno José Oliboni. Lema: \"Quem participa é digno de valorização.\""
+  },
+  {
+    "id": "placa-carvalho-centenario-comunidade",
+    "nome": "Placa Centenário da Capela",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064500,
+    "longitude": -51.289955,
+    "descricao": "Centenário da Capela N. Sra. do Caravagio (1898–1998), com a presença de D. Paulo Moretto (bispo diocesano), Alberto W. de Oliveira (prefeito municipal) e Pe. Antônio Fasa (pároco). Homenagem aos primeiros pioneiros da fundação: Francesco Bombardelli, Antonio Marostica e José Calgaro."
+  },
+  {
+    "id": "placa-carvalho-cinquentenario-torre",
+    "nome": "Placa Cinquentenário da Torre",
+    "local": "Travessão Carvalho",
+    "latitude": -29.065269,
+    "longitude": -51.290021,
+    "descricao": "Cinquentenário da Torre da Capela de N. Sra. de Caravagio, com a presença de D. Paulo Moretto (bispo diocesano). Travessão Carvalho, 13 de janeiro de 2002."
+  },
+  {
+    "id": "placa-carvalho-inauguracao-torre",
+    "nome": "Placa Inauguração da Torre",
+    "local": "Travessão Carvalho",
+    "latitude": -29.065269,
+    "longitude": -51.289995,
+    "descricao": "Inauguração da torre em 30 de dezembro de 1951. Construtor: Raimundo Paviani. Pároco: P. Antônio Alessi."
+  },
+  {
+    "id": "placa-carvalho-rede-agua",
+    "nome": "Placa Rede de Água",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064529,
+    "longitude": -51.289872,
+    "descricao": "Placa comemorativa da Rede de Abastecimento de Água do Travessão Carvalho. Lema: \"A comunidade unida ao Poder Público torna possível estas grandes obras.\" Travessão Carvalho, Flores da Cunha, 15 de maio de 2004."
   }
 ]

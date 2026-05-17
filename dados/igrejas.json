@@ -14,5 +14,53 @@
     "latitude": -29.00768,
     "longitude": -51.26281,
     "descricao": "A principal igreja de Alfredo Chaves. Foi construída por volta de 1924, enquanto o campanário saiu do papel em 1941."
+  },
+  {
+    "id": "igreja-carvalho",
+    "nome": "Capela Nossa Senhora de Caravaggio",
+    "local": "Travessão Carvalho",
+    "latitude": -29.065161,
+    "longitude": -51.290033,
+    "descricao": "Capela do Travessão Carvalho, com torre de pedra construída em 1951, cujo cinquentenário foi celebrado em 2002. A capela passou por reforma e ampliação concluída em 2015."
+  },
+  {
+    "id": "capitel-carvalho-santa-francisca-cabrini",
+    "nome": "Capitel Santa Francisca Xavier Cabrini",
+    "local": "Travessão Carvalho",
+    "latitude": -29.060056,
+    "longitude": -51.279088,
+    "descricao": "Capitel dedicado à Santa Francisca Xavier Cabrini, localizado às margens de estrada no Travessão Carvalho."
+  },
+  {
+    "id": "capitel-carvalho-santo-antonio",
+    "nome": "Capitel Santo Antônio",
+    "local": "Travessão Carvalho",
+    "latitude": -29.089383,
+    "longitude": -51.301026,
+    "descricao": "Capitel dedicado a Santo Antônio, datado de 1952, em meio a um conjunto de árvores no Travessão Carvalho."
+  },
+  {
+    "id": "capitel-carvalho-pedra",
+    "nome": "Capitel de Pedra",
+    "local": "Travessão Carvalho",
+    "latitude": -29.079396,
+    "longitude": -51.307276,
+    "descricao": "Capitel rústico esculpido em pedra, integrado a uma formação rochosa natural, com escadaria de pedra de acesso."
+  },
+  {
+    "id": "local-carvalho-escola-antiga",
+    "nome": "Escola Antiga",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064242,
+    "longitude": -51.289644,
+    "descricao": "Antiga construção escolar do Travessão Carvalho, edificação histórica de um pavimento."
+  },
+  {
+    "id": "local-carvalho-salao-comunitario",
+    "nome": "Salão Comunitário",
+    "local": "Travessão Carvalho",
+    "latitude": -29.064518,
+    "longitude": -51.290143,
+    "descricao": "Salão comunitário do Travessão Carvalho, próximo à Capela Nossa Senhora de Caravaggio."
   }
 ]
