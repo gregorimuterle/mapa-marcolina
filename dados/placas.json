@@ -51,7 +51,7 @@
     "id": "monumento-alfredo-nao-identificado",
     "nome": "Monumento Não Identificado",
     "local": "Travessão Alfredo Chaves",
-    "latitude": -29.00796, 
+    "latitude": -29.00796,
     "longitude": -51.26225,
     "descricao": "Monumento não identificado na praça de Alfredo Chaves."
   },
@@ -150,5 +150,21 @@
     "latitude": -29.08288,
     "longitude": -51.21818,
     "descricao": "Cruz das Missões da Linha 60, instalada à margem da estrada próxima ao acesso a Otávio Rocha."
+  },
+  {
+    "id": "placa-santa-justina-cruz-missoes",
+    "nome": "Cruz das Missões",
+    "local": "Santa Justina",
+    "latitude": -29.08662,
+    "longitude": -51.26029,
+    "descricao": "Cruz das Missões de Santa Justina, instalada em base de pedra à margem da estrada, junto a parreirais."
+  },
+  {
+    "id": "placa-santa-justina-torre-igreja",
+    "nome": "Placas da Torre do Campanário",
+    "local": "Santa Justina",
+    "latitude": -29.0872,
+    "longitude": -51.26077,
+    "descricao": "Conjunto de placas afixadas na torre do campanário: inauguração da Torre do Campanário de Sta Justina em 19 de junho de 1994; homenagem ao Sr. Domenico Lionzo, que em 11 de abril de 1908 retornou à Itália para adquirir o sino do campanário; e inauguração da automatização do sino em 2013."
   }
 ]

@@ -46,5 +46,21 @@
     "latitude": -29.084276,
     "longitude": -51.220345,
     "descricao": "Estádio da Sociedade Esportiva e Recreativa Duque de Caxias, da Linha 60."
+  },
+  {
+    "id": "local-santa-justina-salao-comunitario",
+    "nome": "Salão Comunitário",
+    "local": "Santa Justina",
+    "latitude": -29.08707,
+    "longitude": -51.26088,
+    "descricao": "Salão Comunitário Sta. Justina, edificação próxima à Capela Santa Justina."
+  },
+  {
+    "id": "local-santa-justina-torre-igreja",
+    "nome": "Torre do Campanário",
+    "local": "Santa Justina",
+    "latitude": -29.087313,
+    "longitude": -51.260738,
+    "descricao": "Torre do campanário de Santa Justina, edificação separada da capela. Localiza-se próxima ao cemitério comunitário."
   }
 ]

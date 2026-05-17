@@ -54,5 +54,13 @@
     "latitude": -29.084983,
     "longitude": -51.218648,
     "descricao": "Capela da Linha 60, com fachada em estilo neogótico, três pináculos com cruzes, entrada em arco ogival e torre sineira anexa em alvenaria de tijolos aparentes."
+  },
+  {
+    "id": "igreja-santa-justina",
+    "nome": "Capela Santa Justina",
+    "local": "Santa Justina",
+    "latitude": -29.08679,
+    "longitude": -51.26079,
+    "descricao": "Capela de Santa Justina, em estilo neogótico, com rosácea na fachada, frisos ornamentais, três pináculos com cruzes e entrada em arco ogival."
   }
 ]

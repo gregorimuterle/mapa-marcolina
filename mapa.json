@@ -41,7 +41,7 @@
     {
       "id": "locais",
       "nome": "Locais",
-      "icone": "📍",
+      "icone": "🏛️",
       "cor": "#4a6fa5",
       "estilo_pin": "icone",
       "arquivo": "dados/locais.json",
