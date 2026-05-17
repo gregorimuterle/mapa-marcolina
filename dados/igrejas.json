@@ -66,17 +66,17 @@
   {
     "id": "igreja-sao-tiago",
     "nome": "Capela São Tiago",
-    "local": "Mato Perso",
+    "local": "São Tiago",
     "latitude": -29.10436,
     "longitude": -51.31105,
     "descricao": "Capela São Tiago, em estilo neogótico, com a inscrição \"SÃO TIAGO\" na fachada, rosácea ornamental, entrada em arco ogival e três pináculos com cruzes."
   },
   {
     "id": "capitel-sao-tiago",
-    "nome": "Capitel",
-    "local": "Mato Perso",
+    "nome": "Capitel São Tiago",
+    "local": "São Tiago",
     "latitude": -29.10816,
     "longitude": -51.32448,
-    "descricao": "Capitel de Mato Perso, com cobertura em telhas e dois pináculos com cruzes, entrada em arco protegida por grade."
+    "descricao": "Capitel da comunidade de São Tiago, com cobertura em telhas e dois pináculos com cruzes, entrada em arco protegida por grade."
   }
 ]

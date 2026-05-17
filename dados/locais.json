@@ -66,7 +66,7 @@
   {
     "id": "local-sao-tiago-torre-igreja",
     "nome": "Torre do Campanário",
-    "local": "Mato Perso",
+    "local": "São Tiago",
     "latitude": -29.1045,
     "longitude": -51.31109,
     "descricao": "Torre sineira da Capela São Tiago, estrutura metálica treliçada com sino, ao lado da capela."
@@ -74,17 +74,17 @@
   {
     "id": "local-sao-tiago-cemiterio",
     "nome": "Cemitério",
-    "local": "Mato Perso",
+    "local": "São Tiago",
     "latitude": -29.103932,
     "longitude": -51.310839,
-    "descricao": "Cemitério da comunidade de São Tiago - Mato Perso, com pequena capela mortuária."
+    "descricao": "Cemitério da comunidade de São Tiago, com pequena capela mortuária."
   },
   {
     "id": "local-sao-tiago-salao-comunitario",
     "nome": "Salão Comunitário",
-    "local": "Mato Perso",
+    "local": "São Tiago",
     "latitude": -29.10394,
     "longitude": -51.31128,
-    "descricao": "Salão comunitário da comunidade de São Tiago - Mato Perso, próximo à capela."
+    "descricao": "Salão comunitário da comunidade de São Tiago, próximo à capela."
   }
 ]
