@@ -288,6 +288,14 @@
     "fato": "Em 4 de dezembro, os Sindicatos dos Trabalhadores Rurais e dos Pequenos Proprietários Rurais se uniram, formando o Sindicato dos Trabalhadores Rurais de Flores da Cunha."
   },
   {
+    "id": 39,
+    "nome": "Praça de Nova Roma",
+    "latitude": -29.02107,
+    "longitude": -51.14724,
+    "ano_fato": 1963,
+    "fato": "Dá-se início às atividades da Escola Estadual de Ensino Fundamental Antônio Soldatelli, situada no bairro de Nova Roma."
+  },
+  {
     "id": 40,
     "nome": "Praça do Parque dos Pinheiros",
     "latitude": -29.039971,
@@ -353,7 +361,7 @@
   },
   {
     "id": 51,
-    "nome": "Campin",
+    "nome": "Camping",
     "latitude": -29.031431,
     "longitude": -51.161926,
     "ano_fato": 1975,
@@ -569,7 +577,7 @@
   },
   {
     "id": 79,
-    "nome": "Capela Santa Libera",
+    "nome": "Capela Santa Líbera",
     "latitude": -28.993603,
     "longitude": -51.159493,
     "ano_fato": 2003,
@@ -585,7 +593,7 @@
   },
   {
     "id": 81,
-    "nome": "Campin",
+    "nome": "Camping",
     "latitude": -29.031489,
     "longitude": -51.1624,
     "ano_fato": 2005,
@@ -705,7 +713,7 @@
   },
   {
     "id": 96,
-    "nome": "Próximo ao Chefebio",
+    "nome": "Próximo ao Chef Bio",
     "latitude": -29.034573,
     "longitude": -51.18339,
     "ano_fato": 2020,
